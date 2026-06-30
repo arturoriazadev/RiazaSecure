@@ -20,4 +20,43 @@ public class UsuarioService {
             System.out.println(usuario);
         }
     }
+    public Usuario buscarPorDni(String dni) {
+
+    for (Usuario usuario : usuarios) {
+        if (usuario.getDni().equals(dni)) {
+            return usuario;
+        }
+    }
+
+    return null;
+}
+public boolean eliminarUsuario(String dni) {
+
+    Usuario usuario = buscarPorDni(dni);
+
+    if (usuario != null) {
+        usuarios.remove(usuario);
+        return true;
+    }
+
+    return false;
+}
+public boolean actualizarUsuario(String dni, Usuario usuarioActualizado) {
+
+    Usuario usuario = buscarPorDni(dni);
+
+    if (usuario != null) {
+        usuario.setNombre(usuarioActualizado.getNombre());
+        usuario.setApellidos(usuarioActualizado.getApellidos());
+        usuario.setEmail(usuarioActualizado.getEmail());
+        usuario.setTelefono(usuarioActualizado.getTelefono());
+        usuario.setPassword(usuarioActualizado.getPassword());
+        usuario.setRol(usuarioActualizado.getRol());
+        usuario.setActivo(usuarioActualizado.isActivo());
+
+        return true;
+    }
+
+    return false;
+}
 }
