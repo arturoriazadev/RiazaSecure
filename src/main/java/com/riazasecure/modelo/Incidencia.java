@@ -47,4 +47,11 @@ private long id;
     public void setEstado(String estado) {
         this.estado = estado;
     }
+    @Override
+public String toString() {
+    return "Incidencia [id=" + id
+            + ", descripcion=" + descripcion
+            + ", fecha=" + fecha
+            + ", estado=" + estado + "]";
+}
 }

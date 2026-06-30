@@ -1,96 +1,280 @@
 package com.riazasecure;
 
+import java.util.Scanner;
+
 import com.riazasecure.enums.Rol;
 import com.riazasecure.modelo.Usuario;
 import com.riazasecure.servicios.UsuarioService;
+import com.riazasecure.ui.Menu;
 
 public class App {
 
     public static void main(String[] args) {
 
+        Menu menu = new Menu();
+        Scanner scanner = new Scanner(System.in);
+
         UsuarioService servicio = new UsuarioService();
 
-        Usuario usuario1 = new Usuario(
-                1,
-                "Arturo",
-                "Riaza",
-                "12345678A",
-                "arturo@gmail.com",
-                "600123123",
-                "1234",
-                Rol.ADMINISTRADOR,
-                true
-        );
+        int opcion;
 
-        Usuario usuario2 = new Usuario(
-                2,
-                "Juan",
-                "Pérez",
-                "87654321B",
-                "juan@gmail.com",
-                "611222333",
-                "abcd",
-                Rol.VIGILANTE,
-                true
-        );
+        do {
 
-        // Crear usuarios
-        servicio.crearUsuario(usuario1);
-        servicio.crearUsuario(usuario2);
+            opcion = menu.mostrarMenuPrincipal();
 
-        // Listar usuarios
-        servicio.listarUsuarios();
+            switch (opcion) {
 
-        // Buscar usuario por DNI
-        Usuario encontrado = servicio.buscarPorDni("12345678A");
+                // ===========================
+                // GESTIÓN DE USUARIOS
+                // ===========================
+                case 1:
 
-        if (encontrado != null) {
-            System.out.println("\nUsuario encontrado:");
-            System.out.println(encontrado);
-        } else {
-            System.out.println("\nNo existe ese usuario.");
-        }
+                    int opcionUsuarios;
 
-        // Actualizar usuario
-        System.out.println("\nActualizando usuario...");
+                    do {
 
-        Usuario usuarioActualizado = new Usuario(
-                1,
-                "Arturo",
-                "Riaza García",
-                "12345678A",
-                "arturo@riazasecure.com",
-                "699999999",
-                "nuevaPassword",
-                Rol.SUPERVISOR,
-                true
-        );
+                        opcionUsuarios = menu.mostrarMenuUsuarios();
 
-        boolean actualizado = servicio.actualizarUsuario("12345678A", usuarioActualizado);
+                        switch (opcionUsuarios) {
 
-        if (actualizado) {
-            System.out.println("Usuario actualizado correctamente.");
-        } else {
-            System.out.println("No se encontró el usuario.");
-        }
+                            // Crear usuario
+                            case 1:
 
-        System.out.println("\nLista tras actualizar:");
-        servicio.listarUsuarios();
+                                scanner.nextLine();
 
-        // Eliminar usuario
-        System.out.println("\nEliminando usuario...");
+                                System.out.print("Nombre: ");
+                                String nombre = scanner.nextLine();
 
-        boolean eliminado = servicio.eliminarUsuario("87654321B");
+                                System.out.print("Apellidos: ");
+                                String apellidos = scanner.nextLine();
 
-        if (eliminado) {
-            System.out.println("Usuario eliminado correctamente.");
-        } else {
-            System.out.println("No existe ese usuario.");
-        }
+                                System.out.print("DNI: ");
+                                String dni = scanner.nextLine();
 
-        // Mostrar lista final
-        System.out.println("\nLista actualizada:");
+                                System.out.print("Email: ");
+                                String email = scanner.nextLine();
 
-        servicio.listarUsuarios();
+                                System.out.print("Teléfono: ");
+                                String telefono = scanner.nextLine();
+
+                                System.out.print("Contraseña: ");
+                                String password = scanner.nextLine();
+
+                                Usuario usuario = new Usuario(
+                                        servicio.getNumeroUsuarios() + 1,
+                                        nombre,
+                                        apellidos,
+                                        dni,
+                                        email,
+                                        telefono,
+                                        password,
+                                        Rol.USUARIO,
+                                        true);
+
+                                servicio.crearUsuario(usuario);
+
+                                System.out.println();
+                                System.out.println("=========================================");
+                                System.out.println("      USUARIO CREADO CORRECTAMENTE");
+                                System.out.println("=========================================");
+                                System.out.println("Nombre    : " + usuario.getNombre());
+                                System.out.println("Apellidos : " + usuario.getApellidos());
+                                System.out.println("DNI       : " + usuario.getDni());
+                                System.out.println("Email     : " + usuario.getEmail());
+                                System.out.println("=========================================");
+                                break;
+
+                            // Listar usuarios
+                            case 2:
+
+                                System.out.println();
+                                System.out.println("=========================================");
+                                System.out.println("         LISTA DE USUARIOS");
+                                System.out.println("=========================================");
+
+                                servicio.listarUsuarios();
+
+                                System.out.println("=========================================");
+                                break;
+
+                            // Buscar usuario
+                            case 3:
+
+                                scanner.nextLine();
+
+                                System.out.print("Introduce el DNI: ");
+                                String dniBuscar = scanner.nextLine();
+
+                                Usuario encontrado = servicio.buscarPorDni(dniBuscar);
+
+                                if (encontrado != null) {
+                                    System.out.println();
+                                    System.out.println("=========================================");
+                                    System.out.println("         USUARIO ENCONTRADO");
+                                    System.out.println("=========================================");
+                                    System.out.println("ID         : " + encontrado.getId());
+                                    System.out.println("Nombre     : " + encontrado.getNombre());
+                                    System.out.println("Apellidos  : " + encontrado.getApellidos());
+                                    System.out.println("DNI        : " + encontrado.getDni());
+                                    System.out.println("Email      : " + encontrado.getEmail());
+                                    System.out.println("Teléfono   : " + encontrado.getTelefono());
+                                    System.out.println("Rol        : " + encontrado.getRol());
+                                    System.out.println("Activo     : " + (encontrado.isActivo() ? "Sí" : "No"));
+                                    System.out.println("=========================================");
+                                } else {
+                                    System.out.println("\nNo existe ese usuario.");
+                                }
+
+                                break;
+
+                            // Actualizar usuario
+                            case 4:
+
+                                System.out.println("\nActualizar usuario (próximamente)");
+                                break;
+
+                            // Eliminar usuario
+                            case 5:
+
+                                scanner.nextLine();
+
+                                System.out.print("Introduce el DNI del usuario a eliminar: ");
+                                String dniEliminar = scanner.nextLine();
+
+                                if (servicio.eliminarUsuario(dniEliminar)) {
+                                    System.out.println();
+                                    System.out.println("=========================================");
+                                    System.out.println("      USUARIO ELIMINADO");
+                                    System.out.println("=========================================");
+                                    System.out.println("DNI : " + dniEliminar);
+                                    System.out.println("=========================================");
+                                } else {
+                                    System.out.println("\nNo existe ese usuario.");
+                                }
+
+                                break;
+
+                            case 0:
+                                System.out.println("Volviendo al menú principal...");
+                                break;
+
+                            default:
+                                System.out.println("Opción incorrecta.");
+                        }
+
+                    } while (opcionUsuarios != 0);
+
+                    break;
+
+                // ===========================
+                // GESTIÓN DE INCIDENCIAS
+                // ===========================
+                case 2:
+
+                    int opcionIncidencias;
+
+                    do {
+
+                        opcionIncidencias = menu.mostrarMenuIncidencias();
+
+                        switch (opcionIncidencias) {
+
+                            case 1:
+                                System.out.println("Crear incidencia");
+                                break;
+
+                            case 2:
+                                System.out.println("Listar incidencias");
+                                break;
+
+                            case 3:
+                                System.out.println("Buscar incidencia");
+                                break;
+
+                            case 4:
+
+                                scanner.nextLine();
+
+                                System.out.print("Introduce el DNI del usuario a actualizar: ");
+                                String dniActualizar = scanner.nextLine();
+
+                                Usuario usuarioExistente = servicio.buscarPorDni(dniActualizar);
+
+                                if (usuarioExistente != null) {
+
+                                    System.out.print("Nuevo nombre: ");
+                                    String nuevoNombre = scanner.nextLine();
+
+                                    System.out.print("Nuevos apellidos: ");
+                                    String nuevosApellidos = scanner.nextLine();
+
+                                    System.out.print("Nuevo email: ");
+                                    String nuevoEmail = scanner.nextLine();
+
+                                    System.out.print("Nuevo teléfono: ");
+                                    String nuevoTelefono = scanner.nextLine();
+
+                                    System.out.print("Nueva contraseña: ");
+                                    String nuevaPassword = scanner.nextLine();
+
+                                    Usuario usuarioActualizado = new Usuario(
+                                            usuarioExistente.getId(),
+                                            nuevoNombre,
+                                            nuevosApellidos,
+                                            usuarioExistente.getDni(),
+                                            nuevoEmail,
+                                            nuevoTelefono,
+                                            nuevaPassword,
+                                            usuarioExistente.getRol(),
+                                            usuarioExistente.isActivo());
+
+                                    servicio.actualizarUsuario(dniActualizar, usuarioActualizado);
+
+                                    System.out.println();
+                                    System.out.println("=========================================");
+                                    System.out.println("     USUARIO ACTUALIZADO");
+                                    System.out.println("=========================================");
+                                    System.out.println("Nombre    : " + nuevoNombre);
+                                    System.out.println("Apellidos : " + nuevosApellidos);
+                                    System.out.println("Email     : " + nuevoEmail);
+                                    System.out.println("Teléfono  : " + nuevoTelefono);
+                                    System.out.println("=========================================");
+
+                                } else {
+
+                                    System.out.println("\nNo existe ese usuario.");
+
+                                }
+
+                                break;
+
+                            case 5:
+                                System.out.println("Eliminar incidencia");
+                                break;
+
+                            case 0:
+                                System.out.println("Volviendo al menú principal...");
+                                break;
+
+                            default:
+                                System.out.println("Opción incorrecta.");
+                        }
+
+                    } while (opcionIncidencias != 0);
+
+                    break;
+
+                // Salir
+                case 0:
+                    System.out.println("Hasta pronto.");
+                    break;
+
+                default:
+                    System.out.println("Opción no válida.");
+            }
+
+        } while (opcion != 0);
+
+        scanner.close();
     }
 }
