@@ -24,6 +24,11 @@ public class IncidenciaService {
         }
     }
 
+    // Devuelve el número de incidencias
+    public int getNumeroIncidencias() {
+        return incidencias.size();
+    }
+
     // Buscar incidencia por ID
     public Incidencia buscarPorId(long id) {
 
@@ -66,5 +71,4 @@ public class IncidenciaService {
 
         return false;
     }
-    
 }
