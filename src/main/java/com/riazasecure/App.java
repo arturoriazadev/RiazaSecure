@@ -184,15 +184,80 @@ public class App {
                         switch (opcionIncidencias) {
 
                             case 1:
-                                System.out.println("Crear incidencia");
+
+                                scanner.nextLine();
+
+                                System.out.print("Descripción: ");
+                                String descripcion = scanner.nextLine();
+
+                                System.out.print("Fecha: ");
+                                String fecha = scanner.nextLine();
+
+                                System.out.print("Estado: ");
+                                String estado = scanner.nextLine();
+
+                                Incidencia incidencia = new Incidencia(
+                                        incidenciaService.getNumeroIncidencias() + 1,
+                                        descripcion,
+                                        fecha,
+                                        estado);
+
+                                incidenciaService.crearIncidencia(incidencia);
+
+                                System.out.println();
+                                System.out.println("=========================================");
+                                System.out.println("     INCIDENCIA CREADA CORRECTAMENTE");
+                                System.out.println("=========================================");
+                                System.out.println("ID          : " + incidencia.getId());
+                                System.out.println("Descripción : " + incidencia.getDescripcion());
+                                System.out.println("Fecha       : " + incidencia.getFecha());
+                                System.out.println("Estado      : " + incidencia.getEstado());
+                                System.out.println("=========================================");
+
                                 break;
 
                             case 2:
-                                System.out.println("Listar incidencias");
+
+                                System.out.println();
+                                System.out.println("=========================================");
+                                System.out.println("       LISTA DE INCIDENCIAS");
+                                System.out.println("=========================================");
+
+                                incidenciaService.listarIncidencias();
+
+                                System.out.println("=========================================");
+
                                 break;
 
                             case 3:
-                                System.out.println("Buscar incidencia");
+
+                                System.out.println();
+                                System.out.println("========== BUSCAR INCIDENCIA ==========");
+
+                                System.out.print("Introduce el ID: ");
+                                long idBuscar = scanner.nextLong();
+
+                                Incidencia encontrada = incidenciaService.buscarPorId(idBuscar);
+
+                                if (encontrada != null) {
+
+                                    System.out.println();
+                                    System.out.println("=========================================");
+                                    System.out.println("        INCIDENCIA ENCONTRADA");
+                                    System.out.println("=========================================");
+                                    System.out.println("ID          : " + encontrada.getId());
+                                    System.out.println("Descripción : " + encontrada.getDescripcion());
+                                    System.out.println("Fecha       : " + encontrada.getFecha());
+                                    System.out.println("Estado      : " + encontrada.getEstado());
+                                    System.out.println("=========================================");
+
+                                } else {
+
+                                    System.out.println();
+                                    System.out.println("❌ No existe ninguna incidencia con ese ID.");
+
+                                }
+
                                 break;
 
                             case 4:
