@@ -39,7 +39,9 @@ public class App {
 
                         switch (opcionUsuarios) {
 
+                            // ===========================
                             // Crear usuario
+                            // ===========================
                             case 1:
 
                                 scanner.nextLine();
@@ -84,9 +86,12 @@ public class App {
                                 System.out.println("DNI       : " + usuario.getDni());
                                 System.out.println("Email     : " + usuario.getEmail());
                                 System.out.println("=========================================");
+
                                 break;
 
+                            // ===========================
                             // Listar usuarios
+                            // ===========================
                             case 2:
 
                                 System.out.println();
@@ -97,47 +102,113 @@ public class App {
                                 servicio.listarUsuarios();
 
                                 System.out.println("=========================================");
+
                                 break;
 
+                            // ===========================
                             // Buscar usuario
+                            // ===========================
                             case 3:
 
+                                scanner.nextLine();
+
                                 System.out.println();
-                                System.out.println("========== BUSCAR INCIDENCIA ==========");
+                                System.out.println("========== BUSCAR USUARIO ==========");
 
-                                System.out.print("Introduce el ID: ");
-                                long idBuscar = scanner.nextLong();
+                                System.out.print("Introduce el DNI: ");
+                                String dniBuscar = scanner.nextLine();
 
-                                Incidencia incidenciaEncontrada = incidenciaService.buscarPorId(idBuscar);
+                                Usuario encontrado = servicio.buscarPorDni(dniBuscar);
 
-                                if (incidenciaEncontrada != null) {
+                                if (encontrado != null) {
 
                                     System.out.println();
-                                    System.out.println("======================================");
-                                    System.out.println("      INCIDENCIA ENCONTRADA");
-                                    System.out.println("======================================");
-                                    System.out.println("ID          : " + incidenciaEncontrada.getId());
-                                    System.out.println("Descripción : " + incidenciaEncontrada.getDescripcion());
-                                    System.out.println("Fecha       : " + incidenciaEncontrada.getFecha());
-                                    System.out.println("Estado      : " + incidenciaEncontrada.getEstado());
-                                    System.out.println("======================================");
+                                    System.out.println("=========================================");
+                                    System.out.println("        USUARIO ENCONTRADO");
+                                    System.out.println("=========================================");
+                                    System.out.println("ID         : " + encontrado.getId());
+                                    System.out.println("Nombre     : " + encontrado.getNombre());
+                                    System.out.println("Apellidos  : " + encontrado.getApellidos());
+                                    System.out.println("DNI        : " + encontrado.getDni());
+                                    System.out.println("Email      : " + encontrado.getEmail());
+                                    System.out.println("Teléfono   : " + encontrado.getTelefono());
+                                    System.out.println("Rol        : " + encontrado.getRol());
+                                    System.out.println("Activo     : " + encontrado.isActivo());
+                                    System.out.println("=========================================");
 
                                 } else {
 
                                     System.out.println();
-                                    System.out.println("❌ No existe ninguna incidencia con ese ID.");
+                                    System.out.println("❌ No existe ningún usuario con ese DNI.");
 
                                 }
 
                                 break;
 
+                            // ===========================
                             // Actualizar usuario
+                            // ===========================
                             case 4:
 
-                                System.out.println("\nActualizar usuario (próximamente)");
+                                scanner.nextLine();
+
+                                System.out.print("Introduce el DNI del usuario a actualizar: ");
+                                String dniActualizar = scanner.nextLine();
+
+                                Usuario usuarioExistente = servicio.buscarPorDni(dniActualizar);
+
+                                if (usuarioExistente != null) {
+
+                                    System.out.print("Nuevo nombre: ");
+                                    String nuevoNombre = scanner.nextLine();
+
+                                    System.out.print("Nuevos apellidos: ");
+                                    String nuevosApellidos = scanner.nextLine();
+
+                                    System.out.print("Nuevo email: ");
+                                    String nuevoEmail = scanner.nextLine();
+
+                                    System.out.print("Nuevo teléfono: ");
+                                    String nuevoTelefono = scanner.nextLine();
+
+                                    System.out.print("Nueva contraseña: ");
+                                    String nuevaPassword = scanner.nextLine();
+
+                                    Usuario usuarioActualizado = new Usuario(
+                                            usuarioExistente.getId(),
+                                            nuevoNombre,
+                                            nuevosApellidos,
+                                            usuarioExistente.getDni(),
+                                            nuevoEmail,
+                                            nuevoTelefono,
+                                            nuevaPassword,
+                                            usuarioExistente.getRol(),
+                                            usuarioExistente.isActivo());
+
+                                    servicio.actualizarUsuario(dniActualizar, usuarioActualizado);
+
+                                    System.out.println();
+                                    System.out.println("=========================================");
+                                    System.out.println("      USUARIO ACTUALIZADO");
+                                    System.out.println("=========================================");
+                                    System.out.println("Nombre    : " + nuevoNombre);
+                                    System.out.println("Apellidos : " + nuevosApellidos);
+                                    System.out.println("Email     : " + nuevoEmail);
+                                    System.out.println("Teléfono  : " + nuevoTelefono);
+                                    System.out.println("=========================================");
+
+                                } else {
+
+                                    System.out.println();
+                                    System.out.println("❌ No existe ese usuario.");
+
+                                }
+
                                 break;
 
+                            // ===========================
                             // Eliminar usuario
+                            // ===========================
                             case 5:
 
                                 scanner.nextLine();
@@ -146,14 +217,19 @@ public class App {
                                 String dniEliminar = scanner.nextLine();
 
                                 if (servicio.eliminarUsuario(dniEliminar)) {
+
                                     System.out.println();
                                     System.out.println("=========================================");
                                     System.out.println("      USUARIO ELIMINADO");
                                     System.out.println("=========================================");
                                     System.out.println("DNI : " + dniEliminar);
                                     System.out.println("=========================================");
+
                                 } else {
-                                    System.out.println("\nNo existe ese usuario.");
+
+                                    System.out.println();
+                                    System.out.println("❌ No existe ese usuario.");
+
                                 }
 
                                 break;
@@ -228,36 +304,8 @@ public class App {
                                 System.out.println("=========================================");
 
                                 break;
-
                             case 3:
-
-                                System.out.println();
-                                System.out.println("========== BUSCAR INCIDENCIA ==========");
-
-                                System.out.print("Introduce el ID: ");
-                                long idBuscar = scanner.nextLong();
-
-                                Incidencia encontrada = incidenciaService.buscarPorId(idBuscar);
-
-                                if (encontrada != null) {
-
-                                    System.out.println();
-                                    System.out.println("=========================================");
-                                    System.out.println("        INCIDENCIA ENCONTRADA");
-                                    System.out.println("=========================================");
-                                    System.out.println("ID          : " + encontrada.getId());
-                                    System.out.println("Descripción : " + encontrada.getDescripcion());
-                                    System.out.println("Fecha       : " + encontrada.getFecha());
-                                    System.out.println("Estado      : " + encontrada.getEstado());
-                                    System.out.println("=========================================");
-
-                                } else {
-
-                                    System.out.println();
-                                    System.out.println("❌ No existe ninguna incidencia con ese ID.");
-
-                                }
-
+                                System.out.println("Buscar incidencia");
                                 break;
 
                             case 4:
