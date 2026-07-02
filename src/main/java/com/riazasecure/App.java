@@ -258,7 +258,6 @@ public class App {
                         opcionIncidencias = menu.mostrarMenuIncidencias();
 
                         switch (opcionIncidencias) {
-
                             case 1:
 
                                 scanner.nextLine();
@@ -304,70 +303,109 @@ public class App {
                                 System.out.println("=========================================");
 
                                 break;
+
                             case 3:
-                                System.out.println("Buscar incidencia");
-                                break;
 
-                            case 4:
+                                System.out.println();
+                                System.out.println("========== BUSCAR INCIDENCIA ==========");
 
+                                System.out.print("Introduce el ID: ");
+                                long idBuscar = scanner.nextLong();
                                 scanner.nextLine();
 
-                                System.out.print("Introduce el DNI del usuario a actualizar: ");
-                                String dniActualizar = scanner.nextLine();
+                                Incidencia encontrada = incidenciaService.buscarPorId(idBuscar);
 
-                                Usuario usuarioExistente = servicio.buscarPorDni(dniActualizar);
-
-                                if (usuarioExistente != null) {
-
-                                    System.out.print("Nuevo nombre: ");
-                                    String nuevoNombre = scanner.nextLine();
-
-                                    System.out.print("Nuevos apellidos: ");
-                                    String nuevosApellidos = scanner.nextLine();
-
-                                    System.out.print("Nuevo email: ");
-                                    String nuevoEmail = scanner.nextLine();
-
-                                    System.out.print("Nuevo teléfono: ");
-                                    String nuevoTelefono = scanner.nextLine();
-
-                                    System.out.print("Nueva contraseña: ");
-                                    String nuevaPassword = scanner.nextLine();
-
-                                    Usuario usuarioActualizado = new Usuario(
-                                            usuarioExistente.getId(),
-                                            nuevoNombre,
-                                            nuevosApellidos,
-                                            usuarioExistente.getDni(),
-                                            nuevoEmail,
-                                            nuevoTelefono,
-                                            nuevaPassword,
-                                            usuarioExistente.getRol(),
-                                            usuarioExistente.isActivo());
-
-                                    servicio.actualizarUsuario(dniActualizar, usuarioActualizado);
+                                if (encontrada != null) {
 
                                     System.out.println();
                                     System.out.println("=========================================");
-                                    System.out.println("     USUARIO ACTUALIZADO");
+                                    System.out.println("      INCIDENCIA ENCONTRADA");
                                     System.out.println("=========================================");
-                                    System.out.println("Nombre    : " + nuevoNombre);
-                                    System.out.println("Apellidos : " + nuevosApellidos);
-                                    System.out.println("Email     : " + nuevoEmail);
-                                    System.out.println("Teléfono  : " + nuevoTelefono);
+                                    System.out.println("ID          : " + encontrada.getId());
+                                    System.out.println("Descripción : " + encontrada.getDescripcion());
+                                    System.out.println("Fecha       : " + encontrada.getFecha());
+                                    System.out.println("Estado      : " + encontrada.getEstado());
                                     System.out.println("=========================================");
 
                                 } else {
 
-                                    System.out.println("\nNo existe ese usuario.");
+                                    System.out.println();
+                                    System.out.println("❌ No existe ninguna incidencia con ese ID.");
+
+                                }
+
+                                break;
+                            case 4:
+
+                                System.out.println();
+                                System.out.println("========== ACTUALIZAR INCIDENCIA ==========");
+
+                                System.out.print("Introduce el ID de la incidencia: ");
+                                long idActualizar = scanner.nextLong();
+                                scanner.nextLine();
+
+                                Incidencia incidenciaExistente = incidenciaService.buscarPorId(idActualizar);
+
+                                if (incidenciaExistente != null) {
+
+                                    System.out.print("Nueva descripción: ");
+                                    String nuevaDescripcion = scanner.nextLine();
+
+                                    System.out.print("Nueva fecha: ");
+                                    String nuevaFecha = scanner.nextLine();
+
+                                    System.out.print("Nuevo estado: ");
+                                    String nuevoEstado = scanner.nextLine();
+
+                                    Incidencia incidenciaActualizada = new Incidencia(
+                                            incidenciaExistente.getId(),
+                                            nuevaDescripcion,
+                                            nuevaFecha,
+                                            nuevoEstado);
+
+                                    incidenciaService.actualizarIncidencia(idActualizar, incidenciaActualizada);
+
+                                    System.out.println();
+                                    System.out.println("=========================================");
+                                    System.out.println("     INCIDENCIA ACTUALIZADA");
+                                    System.out.println("=========================================");
+                                    System.out.println("ID          : " + incidenciaActualizada.getId());
+                                    System.out.println("Descripción : " + incidenciaActualizada.getDescripcion());
+                                    System.out.println("Fecha       : " + incidenciaActualizada.getFecha());
+                                    System.out.println("Estado      : " + incidenciaActualizada.getEstado());
+                                    System.out.println("=========================================");
+
+                                } else {
+
+                                    System.out.println("\nNo existe ninguna incidencia con ese ID.");
 
                                 }
 
                                 break;
 
                             case 5:
-                                System.out.println("Eliminar incidencia");
-                                break;
+
+                                System.out.println();
+                                System.out.println("========== ELIMINAR INCIDENCIA ==========");
+
+                                System.out.print("Introduce el ID de la incidencia: ");
+                                long idEliminar = scanner.nextLong();
+                                scanner.nextLine();
+
+                                if (incidenciaService.eliminarIncidencia(idEliminar)) {
+
+                                    System.out.println();
+                                    System.out.println("=========================================");
+                                    System.out.println("     INCIDENCIA ELIMINADA");
+                                    System.out.println("=========================================");
+                                    System.out.println("ID : " + idEliminar);
+                                    System.out.println("=========================================");
+
+                                } else {
+
+                                    System.out.println("\nNo existe ninguna incidencia con ese ID.");
+
+                                }
 
                             case 0:
                                 System.out.println("Volviendo al menú principal...");
