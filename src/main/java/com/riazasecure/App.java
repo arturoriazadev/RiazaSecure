@@ -3,6 +3,8 @@ package com.riazasecure;
 import java.util.Scanner;
 
 import com.riazasecure.enums.Rol;
+import com.riazasecure.modelo.Incidencia;
+import com.riazasecure.servicios.IncidenciaService;
 import com.riazasecure.modelo.Usuario;
 import com.riazasecure.servicios.UsuarioService;
 import com.riazasecure.ui.Menu;
@@ -15,7 +17,7 @@ public class App {
         Scanner scanner = new Scanner(System.in);
 
         UsuarioService servicio = new UsuarioService();
-
+        IncidenciaService incidenciaService = new IncidenciaService();
         int opcion;
 
         do {
@@ -100,29 +102,31 @@ public class App {
                             // Buscar usuario
                             case 3:
 
-                                scanner.nextLine();
+                                System.out.println();
+                                System.out.println("========== BUSCAR INCIDENCIA ==========");
 
-                                System.out.print("Introduce el DNI: ");
-                                String dniBuscar = scanner.nextLine();
+                                System.out.print("Introduce el ID: ");
+                                long idBuscar = scanner.nextLong();
 
-                                Usuario encontrado = servicio.buscarPorDni(dniBuscar);
+                                Incidencia incidenciaEncontrada = incidenciaService.buscarPorId(idBuscar);
 
-                                if (encontrado != null) {
+                                if (incidenciaEncontrada != null) {
+
                                     System.out.println();
-                                    System.out.println("=========================================");
-                                    System.out.println("         USUARIO ENCONTRADO");
-                                    System.out.println("=========================================");
-                                    System.out.println("ID         : " + encontrado.getId());
-                                    System.out.println("Nombre     : " + encontrado.getNombre());
-                                    System.out.println("Apellidos  : " + encontrado.getApellidos());
-                                    System.out.println("DNI        : " + encontrado.getDni());
-                                    System.out.println("Email      : " + encontrado.getEmail());
-                                    System.out.println("Teléfono   : " + encontrado.getTelefono());
-                                    System.out.println("Rol        : " + encontrado.getRol());
-                                    System.out.println("Activo     : " + (encontrado.isActivo() ? "Sí" : "No"));
-                                    System.out.println("=========================================");
+                                    System.out.println("======================================");
+                                    System.out.println("      INCIDENCIA ENCONTRADA");
+                                    System.out.println("======================================");
+                                    System.out.println("ID          : " + incidenciaEncontrada.getId());
+                                    System.out.println("Descripción : " + incidenciaEncontrada.getDescripcion());
+                                    System.out.println("Fecha       : " + incidenciaEncontrada.getFecha());
+                                    System.out.println("Estado      : " + incidenciaEncontrada.getEstado());
+                                    System.out.println("======================================");
+
                                 } else {
-                                    System.out.println("\nNo existe ese usuario.");
+
+                                    System.out.println();
+                                    System.out.println("❌ No existe ninguna incidencia con ese ID.");
+
                                 }
 
                                 break;
