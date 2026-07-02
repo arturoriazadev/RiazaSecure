@@ -8,10 +8,19 @@ import com.riazasecure.servicios.IncidenciaService;
 import com.riazasecure.modelo.Usuario;
 import com.riazasecure.servicios.UsuarioService;
 import com.riazasecure.ui.Menu;
+import com.riazasecure.database.ConexionBD;
+import java.sql.Connection;
 
 public class App {
 
     public static void main(String[] args) {
+        Connection conexion = ConexionBD.getConexion();
+
+        if (conexion != null) {
+            System.out.println("✅ Conexión con MySQL realizada correctamente.");
+        } else {
+            System.out.println("❌ Error al conectar con MySQL.");
+        }
 
         Menu menu = new Menu();
         Scanner scanner = new Scanner(System.in);
