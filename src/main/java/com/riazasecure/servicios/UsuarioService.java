@@ -4,67 +4,43 @@ import java.util.ArrayList;
 
 import com.riazasecure.modelo.Usuario;
 
+import com.riazasecure.dao.UsuarioDAO;
+
 public class UsuarioService {
 
     private ArrayList<Usuario> usuarios;
+    private UsuarioDAO usuarioDAO;
 
     public UsuarioService() {
         usuarios = new ArrayList<>();
+        usuarioDAO = new UsuarioDAO();
     }
 
     public void crearUsuario(Usuario usuario) {
         usuarios.add(usuario);
+        usuarioDAO.insertarUsuario(usuario);
     }
 
-    public void listarUsuarios() {
-        for (Usuario usuario : usuarios) {
-            System.out.println(usuario);
-        }
+   public void listarUsuarios() {
+
+    for (Usuario usuario : usuarioDAO.listarUsuarios()) {
+        System.out.println(usuario);
     }
+
+}
 
     public int getNumeroUsuarios() {
         return usuarios.size();
     }
 
     public Usuario buscarPorDni(String dni) {
-
-        for (Usuario usuario : usuarios) {
-            if (usuario.getDni().equals(dni)) {
-                return usuario;
-            }
-        }
-
-        return null;
-    }
+    return usuarioDAO.buscarPorDni(dni);
+}
 
     public boolean eliminarUsuario(String dni) {
-
-        Usuario usuario = buscarPorDni(dni);
-
-        if (usuario != null) {
-            usuarios.remove(usuario);
-            return true;
-        }
-
-        return false;
-    }
-
-    public boolean actualizarUsuario(String dni, Usuario usuarioActualizado) {
-
-        Usuario usuario = buscarPorDni(dni);
-
-        if (usuario != null) {
-            usuario.setNombre(usuarioActualizado.getNombre());
-            usuario.setApellidos(usuarioActualizado.getApellidos());
-            usuario.setEmail(usuarioActualizado.getEmail());
-            usuario.setTelefono(usuarioActualizado.getTelefono());
-            usuario.setPassword(usuarioActualizado.getPassword());
-            usuario.setRol(usuarioActualizado.getRol());
-            usuario.setActivo(usuarioActualizado.isActivo());
-
-            return true;
-        }
-
-        return false;
-    }
+    return usuarioDAO.eliminarUsuario(dni);
 }
+    public boolean actualizarUsuario(String dni, Usuario usuarioActualizado) {
+    return usuarioDAO.actualizarUsuario(dni, usuarioActualizado);
+}
+    }

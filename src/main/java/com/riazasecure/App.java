@@ -127,28 +127,27 @@ public class App {
                                 System.out.print("Introduce el DNI: ");
                                 String dniBuscar = scanner.nextLine();
 
-                                Usuario encontrado = servicio.buscarPorDni(dniBuscar);
+                                Usuario usuarioEncontrado = servicio.buscarPorDni(dniBuscar);
 
-                                if (encontrado != null) {
+                                if (usuarioEncontrado != null) {
 
                                     System.out.println();
                                     System.out.println("=========================================");
                                     System.out.println("        USUARIO ENCONTRADO");
                                     System.out.println("=========================================");
-                                    System.out.println("ID         : " + encontrado.getId());
-                                    System.out.println("Nombre     : " + encontrado.getNombre());
-                                    System.out.println("Apellidos  : " + encontrado.getApellidos());
-                                    System.out.println("DNI        : " + encontrado.getDni());
-                                    System.out.println("Email      : " + encontrado.getEmail());
-                                    System.out.println("Teléfono   : " + encontrado.getTelefono());
-                                    System.out.println("Rol        : " + encontrado.getRol());
-                                    System.out.println("Activo     : " + encontrado.isActivo());
+                                    System.out.println("ID         : " + usuarioEncontrado.getId());
+                                    System.out.println("Nombre     : " + usuarioEncontrado.getNombre());
+                                    System.out.println("Apellidos  : " + usuarioEncontrado.getApellidos());
+                                    System.out.println("DNI        : " + usuarioEncontrado.getDni());
+                                    System.out.println("Email      : " + usuarioEncontrado.getEmail());
+                                    System.out.println("Teléfono   : " + usuarioEncontrado.getTelefono());
+                                    System.out.println("Rol        : " + usuarioEncontrado.getRol());
+                                    System.out.println("Activo     : " + usuarioEncontrado.isActivo());
                                     System.out.println("=========================================");
 
                                 } else {
 
-                                    System.out.println();
-                                    System.out.println("❌ No existe ningún usuario con ese DNI.");
+                                    System.out.println("\n❌ No existe ningún usuario con ese DNI.");
 
                                 }
 
